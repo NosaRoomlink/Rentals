@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Successful</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f2f2f2;
+    }
+    .success-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .btn {
+      background-color: #25D366;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 16px;
+      margin-top: 20px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="success-box">
+    <h2>Payment Successful</h2>
+    <p>Contact by WhatsApp or phone call</p>
+    <a id="whatsapp-btn" class="btn" href="#">Chat on WhatsApp</a>
+    <p>Select and copy number in case you can't return to this screen if needed</p>
+    <p id="phone-number">Loading number...</p>
+    
+  </div>
+
+  <script>
+    const refLink = localStorage.getItem("refLink");
+    
+    // API endpoint for listings data
+    if (refLink) { 
+        fetch(`https://script.google.com/macros/s/AKfycbwW6rsx69R7oNXhWq0_MO8kUyH-py0rZEpBdfgas-wTGRqORseqf575N_8HWUaERoDu/exec?trackRef=${encodeURIComponent(refLink)}`)
+        .then(res => res.json())
+        .then(data => {
+          console.log("✅ Referral tracked:", data);
+        })
+        .catch(err => console.error("❌ Referral track failed:", err));
+    }
+    document.addEventListener('DOMContentLoaded', async function () {
+        const roomId = localStorage.getItem("pendingRoomID");
+        const phoneText = document.getElementById("phone-number");
+        const waBtn = document.getElementById("whatsapp-btn");
+    
+        // API endpoints
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwrkg3B_tzVrp4c3luFnU5tOvRIxzzB21_OCq8OFesitSDSG-UYJgGTrPbWzggegZ2m/exec';
+        
+        const API_UPDATER = 'https://script.google.com/macros/s/AKfycbyywOVDxd4EZ8-YhMaYp1QFK919ginxL5gw_xR9i0KblY6VuTJwJOm0LQbgBY_VCc7w/exec';
+    
+        // Fetch room data
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        const listings = data.rows || [];
+    
+        // Find the specific room
+        const room = listings.find(r => (r.ID || r.id) == roomId);
+    
+        console.log(roomId);
+        
+        // Extract room data
+        const location = room.Location || '';
+        const whatsapp = room['WhatsApp Number'] || '';
+    
+        if (!room) {
+          throw new Error('Room not found');
+          phoneText.innerText = "Room ID not found.";
+          waBtn.style.display = "none";
+        } else {
+            // Async handler for payment completion
+      (async () => {
+          try {
+              await fetch(`${API_UPDATER}?update=${roomId}&status=Talking to Renter`);
+              waBtn.style.display = "block";
+              phoneText.innerText = whatsapp;
+              waBtn.href = `https://wa.me/${whatsapp}?text=${encodeURIComponent(`I'm interested in Room ID ${roomId} at ${location}.`)}`;
+            } catch (err) {
+                console.error('Failed to update room status:', err);
+                alert('Payment succeeded but failed to update room status. Please contact support.');
+             }
+          })();       
+        }
+      });
+   
+  </script>
+</body>
+</html>

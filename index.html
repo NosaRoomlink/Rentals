@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic Meta Tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Affordable and professional web design">
+  <meta name="keywords" content="Ambrose Alli University, AAU Ekpoma, Ambrose Alli University Ekpoma, AAU Edo State Nigeria, AAU Nigeria, AAU official site, AAU Kofa portal, Ambrose Alli University student portal, Ambrose Alli University admission portal, AAU login, www.aauekpoma.edu.ng, aauekpoma.edu.ng, AAU Kofa login, AAU WAEUP portal, aaue.waeup.org login, WAEUP Kofa AAU, AAU application form, AAU JAMB cutoff marks, AAU course requirements, AAU faculties list, AAU academic calendar, Ambrose Alli University courses, AAU departmental cut off, AAU Ekpoma direct entry, AAU acceptance fee, AAU school fees, AAU matriculation, AAU clearance process, AAU result checker, AAU transcript request, AAU course outline, AAU department handbook, AAU Journal of Business Educators, aaujbe.com.ng, AAU research publications, AAU academic research, AAU final year project topics, AAU annual report, Ambrose Alli University history, AAU school founder, Ambrose Alli biography, AAU VC name, Ambrose Alli University motto, Ambrose Alli alumni, AAU Edo State origin, AAU official Facebook page, Ambrose Alli University Facebook, Ambrose Alli University Instagram, AAU official Twitter, AAU WhatsApp group, AAU students Facebook group, AAU updates Facebook, AAU Ekpoma latest news, AAU notice board online, officialaauonlinenews, AAU Ekpoma hostel application, AAU hostel allocation, AAU off-campus housing, AAU student apartment listings, AAU hostel list, Ekpoma student housing, AAU hostel fees, Room-Link AAU housing, Nosa Roomlink, Nosa Roomlink Listing, Room-Link prices, AAU accommodation portal, AAU school fees update, AAU exam timetable, AAU course registration, AAU current strike update, AAU graduation list, AAU convocation, AAU latest admission news, AAU change of course, AAU website not loading, AAU student ID card, AAU upload O'level">
+  <meta name="author" content="Omoigui Maxwell">
+  
+  <!-- Page Title -->
+  <title>Nosa Roomlink Home-page</title>
+  
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="./css/styles.css">
+  <!-- Script for Referral -->
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get("ref");
+
+    // Only set if not already stored
+    if (ref && !localStorage.getItem("refLink")) {
+      localStorage.setItem("refLink", ref);
+    }
+  </script>
+</head>
+
+<body>
+  <!-- Header/Navigation Section -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <div class="logo"><b>NOSA ROOMLINK</b></div>
+      <!-- Mobile Hamburger Menu -->
+      <button class="hamburger" aria-label="Menu">
+        <span class="hamburger-box">
+          <span class="hamburger-inner"></span>
+        </span>
+      </button>
+      <!-- Main Navigation Links -->
+      <nav class="nav-links">
+        <a href="#" class="active">Home</a>
+        <a href="listing.html">Listings</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <h2>Find or List Student Rooms with Ease</h2>
+        <p>Whether you're a student searching for accommodation near campus or a rent agent with rooms to offer, our platform is built to connect you—quickly, directly, and without complications.</p>
+        <div class="hero-buttons">
+          <a href="listing.html"><button class="btn">I'm Looking for a Room</button></a>
+          <a href="https://forms.gle/KDtfSd4g2sHKWFDk8"><button class="btn">I Want to List a Space</button></a>
+        </div>
+      </div>
+      <div class="hero-img"></div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-to">
+    <div class="container">
+      <h2>With Nosa Roomlink it's Simple, Fast, and Transparent</h2>
+      <div class="columns">
+        <!-- For Renters Column -->
+        <div class="column">
+          <img src="./img/icon1.png" alt="icon">
+          <h3>Find Your Next Hostel Without the Hassle</h3>
+          <p>Tired of walking endlessly around Ekpoma searching for a hostel? With Room-Link, you can explore real, available listings from rent agents—right from your phone.
+          For a small, one-time fee, you'll unlock direct WhatsApp contact access to the listings from rent agent with no delays.
+          We simply connect you to an agent that can help you rent a location you like</p>
+          <a href="about.html#renter-details"><button class="btn small">Learn More</button></a>
+        </div>
+        
+        <!-- For Agents Column -->
+        <div class="column">
+          <img src="./img/icon2.png" alt="icon">
+          <h3>Reach Serious Renters Without Lifting a Finger</h3>
+          <p>Have an available hostel room? Whether you're an agent, landlord, or student vacating a space, listing on Nosa Roomlink takes just minutes.
+          Your contact details are shown only to people who have paid to reach you, ready to rent the place -no time-wasters. You're always in control—update, Available, or mark as rented at any time</p>
+          <a href="about.html#agent-details"><button class="btn small">Learn More</button></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Listings Section -->
+  <section class="listings">
+    <div class="container">
+      <h2>TOP LISTINGS</h2>
+      <!-- Sorting Dropdown -->
+      <div class="filters">
+        <div class="custom-dropdown">
+          <button class="dropdown-toggle">Sort By: Date<i class="fas fa-chevron-down"></i></button>
+          <div class="dropdown-menu">
+            <a href="#" data-sort="date">Date (Newest First)</a>
+            <a href="#" data-sort="lowest-price">Price (Low to High)</a>
+            <a href="#" data-sort="highest-price">Price (High to Low)</a>
+          </div>
+        </div>
+      </div>
+      <!-- Listings Grid (Dynamically populated by JavaScript) -->
+      <div class="grid" id="top-listings">
+        <div class="empty-state">Loading available listings...</div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="container footer-columns">
+      <!-- Quick Links Column -->
+      <div class="column">
+        <h3>Quick Links</h3>
+        <p><a href="about.html">About Us and How It Works</a></p>
+        <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSePYLeW-CE8hhNV3CIIEPJVyMHDJIIynbUMnNM08_5J6Kx5Pg/viewform?pli=1">List a Room</a></p>
+        <p><a href="listing.html">Browse Hostels</a></p>
+        <p><a href="https://forms.gle/XYMVqV7h2wRdXbBp6">Report a Listing</a></p>
+      </div>
+      
+      <!-- Contact Info Column -->
+      <div class="column">
+        <h3>Contact Info</h3>
+        <p>Nosa RoomlinkOfficial@gmail.com</p>
+      </div>
+      
+      <!-- Legal Column -->
+      <div class="column">
+        <h3>Legal</h3>
+        <p>© 2025 Nosa Roomlink by NUVON. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Wait for DOM to be fully loaded before executing scripts
+    document.addEventListener('DOMContentLoaded', function () {
+      // Mobile Navigation Toggle
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.querySelector('.nav-links');
+      const navContainer = document.querySelector('.nav-container');
+
+      /**
+       * Toggle mobile navigation menu
+       */
+      hamburger.addEventListener('click', function (e) {
+        e.stopPropagation();
+        this.classList.toggle('is-active');
+        navLinks.classList.toggle('active');
+      });
+
+      // Close mobile menu when clicking outside
+      document.addEventListener('click', function (e) {
+        if (!navContainer.contains(e.target)) {
+          hamburger.classList.remove('is-active');
+          navLinks.classList.remove('active');
+        }
+      });
+
+      // Prevent nav links from closing when clicking on them
+      navLinks.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+
+      // Dropdown Toggles
+      const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+      
+      /**
+       * Initialize dropdown menus
+       */
+      dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', function (e) {
+          e.stopPropagation();
+          const parent = this.parentElement;
+          parent.classList.toggle('active');
+          
+          // Close other open dropdowns
+          document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
+            if (dropdown !== parent) dropdown.classList.remove('active');
+          });
+        });
+      });
+
+      // Close dropdowns when clicking anywhere else
+      document.addEventListener('click', () => {
+        document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
+          dropdown.classList.remove('active');
+        });
+      });
+
+      // --- Listing Data Logic ---
+      const API_URL = 'https://script.google.com/macros/s/AKfycbwrkg3B_tzVrp4c3luFnU5tOvRIxzzB21_OCq8OFesitSDSG-UYJgGTrPbWzggegZ2m/exec';
+
+      /**
+       * Fetches top listings from API and sorts them
+       * @param {string} sortBy - Sorting method ('date', 'lowest-price', 'highest-price')
+       */     
+       ;
+      async function fetchTopListings(sortBy = 'date') {
+        try {
+          const response = await fetch(API_URL);
+          const data = await response.json();
+          
+
+          if (!data || !data.rows) throw new Error("No data returned");
+
+          let listings = data.rows;
+
+          // Apply sorting based on parameter
+          if (sortBy === 'date') {
+            listings.sort((a, b) => new Date(b["Timestamp"]) - new Date(a["Timestamp"]));
+          } else if (sortBy === 'lowest-price') {
+            listings.sort((a, b) => (parseFloat(a["Total Amount"]) || 0) - (parseFloat(b["Total Amount"]) || 0));
+          } else if (sortBy === 'highest-price') {
+            listings.sort((a, b) => (parseFloat(b["Total Amount"]) || 0) - (parseFloat(a["Total Amount"]) || 0));
+          }
+
+          // Limit to first 10 listings
+          listings = listings.slice(0, 10);
+
+          displayListings(listings);
+
+        } catch (error) {
+          console.error("Error loading listings:", error);
+          showErrorState();
+        }
+      }
+
+      /**
+       * Displays listings in the grid
+       * @param {Array} listings - Array of listing objects
+       */
+      function displayListings(listings) {
+          const grid = document.getElementById('top-listings');
+          grid.innerHTML = '';
+
+          // Show empty state if no listings
+          if (!listings.length) {
+            grid.innerHTML = '<div class="empty-state">No available listings at this time</div>';
+            return;
+          }
+
+          // Create HTML for each listing
+          listings.forEach(listing => {
+            const id = listing["ID"] || '';
+            const rawImages = listing["Upload Apartment Images"] || '';
+            const location = listing["Location"] || '';
+            const price = Number(listing["Total Amount"] || 0);
+            const available = listing['Availability'] || 'Unknown report';
+
+            // Extract first image URL
+            let firstImage = rawImages.split(',')[0].trim();
+            let fileId = '';
+
+            // Extract file ID from Google Drive URL
+            if (firstImage.includes('id=')) {
+              fileId = firstImage.split('id=')[1].split('&')[0];
+            } else if (firstImage.includes('/d/')) {
+              fileId = firstImage.split('/d/')[1].split('/')[0];
+            }
+            // for collecting from drive
+            //https://drive.google.com/uc?export=view&id=FILE_ID
+            // for collecting from thumbnail
+            //https://drive.google.com/thumbnail?id=${fileId
+            
+
+            const image = fileId
+              ? `https://drive.google.com/file/d/${fileId}/preview`
+              : 'https://via.placeholder.com/400x300';
+    
+            console.log("About to render listing with ID:", id);
+            console.log("Using image URL:", image);
+
+            // Create listing card HTML
+            const card = document.createElement('div');
+            card.className = 'listing-card';
+
+            const img = document.createElement('iframe');
+            img.src = image;
+            img.alt = location;
+           // img.width = "100px";
+            img.onload = function () {
+              console.log('✅ Image loaded:', this.src);
+            };
+            img.onerror = function () {
+              console.error('❌ Image failed to load:', this.src);
+              this.src = './img/errorLoader.jpg';
+            };
+
+            card.innerHTML = `
+              <a href="room.html?id=${id}">
+                <div class="listing-info">
+                  <div class="listing-available">
+                    ${available} </div>
+                  <div class="listing-price">
+                    ${"₦"+price.toLocaleString()}</div>
+                </div>
+              </a>
+            `;
+
+            const anchor = card.querySelector('a');
+            anchor.prepend(img);
+            grid.appendChild(card);
+          });
+
+          console.log(listings);
+        }
+
+      /**
+       * Shows error state when listings fail to load
+       */
+      function showErrorState() {
+        document.getElementById('top-listings').innerHTML = 
+        '<div class="empty-state">Error loading listings. Please try again later.</div>';
+      }
+
+      // Initial load with default sorting (newest first)
+      fetchTopListings('date');
+
+      // Set up sorting dropdown interactions
+      document.querySelectorAll('.dropdown-menu a').forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          const sortBy = e.target.dataset.sort;
+          document.querySelector('.dropdown-toggle').textContent = `Sort By: ${e.target.textContent}`;
+          fetchTopListings(sortBy);
+        });
+      });
+    });
+  </script>       
+</body>
+</html>

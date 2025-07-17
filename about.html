@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic Meta Tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Page Title -->
+  <title>About | Nosa Roomlink</title>
+  
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="./css/about.css">
+  <!-- Script for Referral -->
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get("ref");
+
+    // Only set if not already stored
+    if (ref && !localStorage.getItem("refLink")) {
+      localStorage.setItem("refLink", ref);
+    }
+    </script>
+</head>
+
+<body>
+  <!-- Header/Navigation Section -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <div class="logo"><b>NOSA ROOMLINK</b></div>
+      
+      <!-- Mobile Hamburger Menu -->
+      <button class="hamburger" aria-label="Menu">
+        <span class="hamburger-box">
+          <span class="hamburger-inner"></span>
+        </span>
+      </button>
+      
+      <!-- Main Navigation Links -->
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="listing.html">Listings</a>
+        <a href="about.html" class="active">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Section -->
+  <main class="about-page">
+    <div class="container">
+      <!-- Founder Introduction Section -->
+      <section class="intro">
+        <div class="intro-text">
+          <h2>Created by a Student, for Students</h2>
+          <p>Hi, I'm Omoigui Maxwell. I built this platform to help students like myself secure safe, affordable housing in Ekpoma—without stress. Having experienced the challenges of campus life, I wanted to create a direct, transparent connection between students and agents as easy as possible.</p>
+        </div>
+        <img src="./img/aboutMe.jpg" alt="Founder Maxwell" class="founder-img">
+      </section>
+
+      <!-- Renters Information Section -->
+      <section class="renter-details">
+        <h2 id="renter-details"><span>Renters</span></h2>
+        <div class="renter-content">
+          <img src="./img/forRenters.jpg" alt="Search Steps" class="renter-img">
+          <ul>          
+            <p>With Nosa Roomlink, you can simply search for a decent, budget-friendly place to stay and rent. Our platform gives you fast access to secure a location ease, simply connect the agent, inspected the place and you are good to go, this way you reduce time house hunting and actually select what you want.</p><br>
+            <p><strong>Renting with Nosa Roomlink:</strong></p>
+            <ul>
+              <li>Check listing for what you are looking for</li>
+              <li>Checkout the image(s) and other details about the location</li>
+              <li>Pay for connection to the rent agent's contact</li>
+              <li>After payment WhatsApp button and number will be provided</li>
+              <li>Click button to be directed to WhatsApp DM or copy number to call agent</li>
+            </ul>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Agents Information Section -->
+      <section class="agent-details">
+        <h2 id="agent-details"><span>Rent Agents</span></h2>
+        <div class="agent-content">
+          <ul>          
+            <p>If you have rooms available, Nosa Roomlink connects you with students who are already searching.
+            We present your listings/location, with vital detailed, so you as an agent get contacted by people ready to rent.</p><br>
+            <p><strong>How list with Nosa Roomlink?</strong></p>
+            <ul>
+              <li>Find a listing button or link in the home page and click</li>
+              <li>Fill in the details on the Google form</li>
+              <li>Once you submitted, a copy will be sent to your Gmail, for you to edit and resubmit</li>
+              <li>To change availability of location used the copy sent to your Gmail to change from Available to Rented</li>
+              <li>Listings are delete every 7 days to keep listing fresh, so 7 days to show student your location</li>
+              <li>Please make sure your WhatsApp number is correct, very IMPORTANT</li>
+            </ul><br>
+            <p><strong>Warning</strong></p>
+            <p>If your listing is reported as fake or fraudulent, a permanent band would be placed on number and email address</p>
+          </ul>
+          <img src="./img/forRentAgents.jpg" alt="Agent Desk" class="agent-img">
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- JavaScript -->
+  <script>
+    // Wait for DOM to be fully loaded before executing scripts
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mobile Navigation Elements
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.querySelector('.nav-links');
+      const navContainer = document.querySelector('.nav-container');
+      
+      /**
+       * Toggle mobile navigation menu
+       */
+      hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.classList.toggle('is-active');
+        navLinks.classList.toggle('active');
+      });
+      
+      // Close mobile menu when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!navContainer.contains(e.target)) {
+          hamburger.classList.remove('is-active');
+          navLinks.classList.remove('active');
+        }
+      });
+      
+      // Prevent nav links from closing when clicking on them
+      navLinks.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    });
+  </script>
+</body>
+</html>
