@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic Meta Tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Page Title -->
+  <title>Room Details - AAU Housing</title>
+  
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="./css/room.css">
+</head>
+
+<body>
+  <!-- Header/Navigation Section -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <div class="logo"><b>NOSA ROOMLINK</b></div>
+      
+      <!-- Mobile Hamburger Menu -->
+      <button class="hamburger" aria-label="Menu">
+        <span class="hamburger-box">
+          <span class="hamburger-inner"></span>
+        </span>
+      </button>
+      
+      <!-- Main Navigation Links -->
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="listing.html">Listings</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Section -->
+  <main class="room-container">
+    <div class="container">
+      <h1 id="room-title">Room Details</h1>
+      
+      <div class="content">
+        <!-- Image Gallery Section -->
+        <div class="image-box">
+          <iframe id="main-room-image" src="https://via.placeholder.com/800x600" alt="Room Image" class="room-img"></iframe>
+          <button class="nav-button left" id="prev-image"><i class="fas fa-chevron-left"></i></button>
+          <button class="nav-button right" id="next-image"><i class="fas fa-chevron-right"></i></button>
+        </div>
+
+        <!-- Room Details Section -->
+        <div class="details">
+          <p id="location"><strong>Location</strong><br>Loading...</p>
+          <p id="first-payment"><strong>First Annual Payment</strong><br>Loading...</p>
+          <p id="annual-payment"><strong>Annual Payment</strong><br>Loading...</p>
+          <p id="agent-fee"><strong>Agent Fee</strong><br>Loading...</p>
+          <p id="description"><strong>Description</strong><br>Loading...</p>
+          <p id="availability"><strong>Availability</strong><br>Loading...</p>
+          <p id="amenities"><strong>Amenities</strong><br>Loading...</p>
+          
+          <p class="total" id="total-price"><strong>Total First Year Cost(First Year + Agent Fee):</strong> Loading...</p>
+          
+          <button id="whatsapp-btn" class="whatsapp-btn">
+              <i class="fab fa-whatsapp"></i> Contact via WhatsApp for ₦1700
+          </button><br>
+          <p id="whatsapp-number" style="display: none;"><strong>WhatsApp Number</strong><br>Loading...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- JavaScript -->
+  <script>
+    // Wait for DOM to be fully loaded before executing scripts
+    document.addEventListener('DOMContentLoaded', async function () {
+      // Get room ID from URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const roomId = urlParams.get('id');
+
+      // Redirect if no room ID is found
+      if (!roomId) {
+        window.location.href = 'listing.html';
+        return;
+      }
+
+      // API endpoints
+      const API_URL = 'https://script.google.com/macros/s/AKfycbwrkg3B_tzVrp4c3luFnU5tOvRIxzzB21_OCq8OFesitSDSG-UYJgGTrPbWzggegZ2m/exec';
+      
+      try {
+        // Fetch room data
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        const listings = data.rows || [];
+
+        // Find the specific room
+        const room = listings.find(r => (r.ID || r.id) == roomId);
+
+        if (!room) {
+          throw new Error('Room not found');
+        }
+
+        // Check availability
+        const availables = (room.Availability || room.availability || '').toLowerCase() === 'available';
+        if (!availables) {
+          document.getElementById('whatsapp-btn').style.display = 'none';
+        }
+
+        // Extract room data
+        const title = `Room ID: ${room.ID || room.id}`;
+        const location = room.Location || '';
+        const firstPayment = parseFloat(room['First Annual Payment'] || 0);
+        const annualPayment = parseFloat(room['Annual Payment'] || 0);
+        const agentFee = parseFloat(room['Agent fee'] || 0);
+        const description = room['Property Description'] || 'No description provided.';
+        const available = room['Availability'] || 'Unknown report';
+        const amenities = room.Amenities || '';
+        const whatsapp = room['WhatsApp Number'] || '';
+        const rawImages = room['Upload Apartment Images'] || '';
+        const total = parseFloat(room['Total Amount'] || 0);
+
+        // Update DOM with room data
+        document.getElementById('room-title').textContent = title;
+        document.getElementById('location').innerHTML = `<strong>Location</strong><br>${location}`;
+        document.getElementById('first-payment').innerHTML = `<strong>First Annual Payment</strong><br>₦${firstPayment.toLocaleString()}`;
+        document.getElementById('annual-payment').innerHTML = `<strong>Annual Payment</strong><br>₦${annualPayment.toLocaleString()}`;
+        document.getElementById('agent-fee').innerHTML = `<strong>Agent Fee</strong><br>₦${agentFee.toLocaleString()}`;
+        document.getElementById('description').innerHTML = `<strong>Description</strong><br>${description}`;
+        document.getElementById('availability').innerHTML = `<strong>Availability</strong><br>${available}`;
+        document.getElementById('amenities').innerHTML = `<strong>Amenities</strong><br>${amenities.split(',').map(a => `• ${a.trim()}`).join('<br>')}`;
+        document.getElementById('total-price').innerHTML = `<strong>Total First Year Cost:</strong> ₦${total.toLocaleString()}`;
+        document.getElementById('whatsapp-number').innerHTML = `<strong>WhatsApp Number</strong><br>${whatsapp}`;
+
+        
+
+        // Image gallery functionality
+        const imageBox = document.getElementById('main-room-image');
+        const allImages = rawImages.split(',').map(url => {
+          const trimmed = url.trim();
+          if (trimmed.includes('id=')) {
+            const fileId = trimmed.split('id=')[1].split('&')[0];
+            console.log(fileId);
+            return `https://drive.google.com/file/d/${fileId}/preview`;
+          } else if (trimmed.includes('/d/')) {
+            const fileId = trimmed.split('/d/')[1].split('/')[0];
+            return `https://drive.google.com/file/d/${fileId}/preview`;
+          }
+          return trimmed;
+        });
+
+        let currentIndex = 0;
+        function updateImage() {
+          imageBox.src = allImages[currentIndex] || './img/errorLoader.jpg';
+          imageBox.alt = `Image ${currentIndex + 1}`;
+        }
+
+        // Navigation buttons for image gallery
+        document.getElementById('prev-image').addEventListener('click', () => {
+          currentIndex = (currentIndex - 1 + allImages.length) % allImages.length;
+          updateImage();
+        });
+
+        document.getElementById('next-image').addEventListener('click', () => {
+          currentIndex = (currentIndex + 1) % allImages.length;
+          updateImage();
+        });
+
+        updateImage();
+        if (allImages.length <= 1) {
+          document.getElementById('prev-image').style.display = 'none';
+          document.getElementById('next-image').style.display = 'none';
+        }
+
+        // Set up WhatsApp button
+        document.getElementById("whatsapp-btn").addEventListener("click", () => {
+        localStorage.setItem("pendingRoomID", roomId);
+        window.location.href = "paymentSuccess.html"; 
+       // window.location.href = "https://selar.com/01b1z62699"; 
+        
+        });
+       
+       } catch (error) {
+        console.error('Error loading room data:', error);
+        document.querySelector('.room-container .container').innerHTML = `
+          <div class="error-state">
+            <p>Error loading room details. Please try again later.</p>
+            <a href="listing.html" class="btn">Back to Listings</a>
+          </div>
+        `;
+      }
+    });
+    
+    // Mobile Navigation Toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.querySelector('.nav-links');
+      const navContainer = document.querySelector('.nav-container');
+      
+      // Toggle menu
+      hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.classList.toggle('is-active');
+        navLinks.classList.toggle('active');
+      });
+      
+      // Close menu when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!navContainer.contains(e.target)) {
+          hamburger.classList.remove('is-active');
+          navLinks.classList.remove('active');
+        }
+      });
+      
+      // Prevent menu from closing when clicking inside it
+      navLinks.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    });
+  </script>
+</body>
+</html>
